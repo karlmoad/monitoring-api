@@ -1,0 +1,23 @@
+{
+  "kind": "Pod",
+  "apiVersion": "v1",
+  "metadata" : {
+    "name":"api-pod"
+  },
+  "spec":{
+    "containers":[
+      {
+          "name":"api",
+          "image":"gcr.io/esbmanagementapi/api:v1",
+          "ports":[
+            {
+                "containerPort":24790
+            },
+            {
+                "containerPort": 24890
+            }
+          ]
+      }
+    ]
+  }
+}

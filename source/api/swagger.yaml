@@ -1,0 +1,1095 @@
+swagger: "2.0"
+info:
+  description: "API system providing information and transaction point to support\n\
+    Enterprise Service Bus (ESB) message flow operations and managment.\n[Learn about\
+    \ the  ESB](http://esb.upmc.com/monitoring/api) or contact us by email at esb@upmc.edu\n\
+    \nBeyond the REST interface defined within the system additionally includes WebSockets\
+    \ endpoints to support bi-directional communication between this service and clients.\n\
+    [Information on web socket endpoints](http://esb.upmc.com/monitoring/api/endpoints/sockets)\
+    \ or contact us at the email above.\n"
+  version: "1.0.0"
+  title: "Enterprise Service Bus (ESB) System Managment API"
+  termsOfService: "http://esb.upmc.com/terms/"
+  contact:
+    name: "ESP Support"
+    url: "http://esb.upmc.com/support"
+    email: "ESBSupport@upmc.edu"
+basePath: "/api"
+schemes:
+- "http"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+paths:
+  /alert:
+    put:
+      tags:
+      - "alert"
+      summary: "Adds an alert to the system pool"
+      operationId: "addAlert"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Alert to be added to system pool"
+        required: true
+        schema:
+          $ref: "#/definitions/Alert"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Alert"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "Alert"
+  /alerts:
+    get:
+      tags:
+      - "alert"
+      summary: "Returns current system alerts within the ESB"
+      operationId: "getAlerts"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Alert"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "Alert"
+  /contact:
+    put:
+      tags:
+      - "contact"
+      summary: "Adds a contact object to the system stores"
+      operationId: "addContact"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Contact object to be added"
+        required: true
+        schema:
+          $ref: "#/definitions/Contact"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Contact"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "Contact"
+  /contact/{id}:
+    get:
+      tags:
+      - "contact"
+      summary: "Returns contact principled on supplied identifier"
+      operationId: "getContactById"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Contact id to retrieve"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Contact"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "Contact"
+    put:
+      tags:
+      - "contact"
+      summary: "Updates Contact object identified by id"
+      operationId: "updateContact"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Identifier of the contact to update"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Contact value to be updated"
+        required: true
+        schema:
+          $ref: "#/definitions/Contact"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Contact"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "Contact"
+  /contacts/reference/{referenceId}:
+    get:
+      tags:
+      - "contact"
+      summary: "Get contacts associated to a reference id"
+      operationId: "getReferenceContacts"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "referenceId"
+        in: "path"
+        description: "Reference Id to retrieve contacts for"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Contact"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "Contact"
+    put:
+      tags:
+      - "contacts"
+      summary: "Add contact to reference"
+      operationId: "addReferenceContact"
+      consumes:
+      - "application/json"
+      produces:
+      - "applicatio/json"
+      parameters:
+      - name: "referenceId"
+        in: "path"
+        description: "Reference Id to add contact to"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Contact to be added"
+        required: true
+        schema:
+          $ref: "#/definitions/Contact"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Contact"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "Contacts"
+  /document:
+    put:
+      tags:
+      - "documentation"
+      summary: "Add a new documententation object to the system"
+      operationId: "addDocument"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Documentation object to be added"
+        required: true
+        schema:
+          $ref: "#/definitions/Incident"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Incident"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "Documentation"
+  /documentation/reference/{referenceId}:
+    get:
+      tags:
+      - "documentation"
+      summary: "Returns ESB documentation principled on supplied reference identifier"
+      operationId: "getDocumentByReference"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "referenceId"
+        in: "path"
+        description: "Reference Id to retrieve attached documentation for"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Documentation"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "Documentation"
+  /documentation/{id}:
+    get:
+      tags:
+      - "documentation"
+      summary: "Returns ESB documentation principled on supplied document identifier"
+      operationId: "getDocumentById"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Reference Id to retrieve attached documentation for"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Documentation"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "Documentation"
+    put:
+      tags:
+      - "documentation"
+      summary: "Updates documentation object identified by id"
+      operationId: "updateDocument"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Identifier of the document to update"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Document value to be updated"
+        required: true
+        schema:
+          $ref: "#/definitions/Documentation"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Documentation"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "Documentation"
+  /incident:
+    put:
+      tags:
+      - "incident"
+      summary: "Add a new incident to the system"
+      operationId: "addIncident"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Incident object to be added"
+        required: true
+        schema:
+          $ref: "#/definitions/Incident"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Incident"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "Incident"
+  /incident/{incidentId}:
+    get:
+      tags:
+      - "incident"
+      summary: "Returns ESB Incident object principled on supplied identifier"
+      operationId: "getIncident"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "incidentId"
+        in: "path"
+        description: "Id of the incident to retrieve"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Incident"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "Incident"
+    put:
+      tags:
+      - "incident"
+      summary: "Updates ESB Incident object principled on supplied identifier"
+      operationId: "updateIncident"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "incidentId"
+        in: "path"
+        description: "Id of the incident to update"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Incident object for update context"
+        required: true
+        schema:
+          $ref: "#/definitions/Incident"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/System"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "Incident"
+  /incidents/current:
+    get:
+      tags:
+      - "incident"
+      summary: "Returns currently open indcidents within the ESB"
+      operationId: "getIncidents"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Incident"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "Incident"
+  /request:
+    put:
+      tags:
+      - "request"
+      summary: "Entre a new request into the system"
+      operationId: "processRequest"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Request object to be entered into the system"
+        required: true
+        schema:
+          $ref: "#/definitions/Request"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Request"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "Request"
+  /request/close/{requestId}:
+    put:
+      tags:
+      - "request"
+      summary: "Close a request"
+      operationId: "closeRequest"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "requestId"
+        in: "path"
+        description: "Identifier of the request to close"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "Request"
+  /request/{requestId}:
+    get:
+      tags:
+      - "request"
+      summary: "Retrieve a previously submitted request by identifier"
+      operationId: "getRequest"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "requestId"
+        in: "path"
+        description: "Identifier of the request to retrieve"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Request"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "Request"
+  /requests/open:
+    get:
+      tags:
+      - "request"
+      summary: "Get open requests"
+      operationId: "getRequests"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Request"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "Request"
+  /system:
+    post:
+      tags:
+      - "system"
+      summary: "Add a new system to the ESB configuration"
+      operationId: "addSystem"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "system"
+        description: "System object to store to system configuration"
+        required: true
+        schema:
+          $ref: "#/definitions/System"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/System"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "System"
+  /system/{systemId}:
+    get:
+      tags:
+      - "system"
+      summary: "Returns configured system within ESB configuration principled on supplied\
+        \ identifier"
+      operationId: "getSystem"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "systemId"
+        in: "path"
+        description: "Id of the system to retrieve"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/System"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "System"
+    put:
+      tags:
+      - "system"
+      summary: "Updates configured system within ESB configuration principled on supplied\
+        \ identifier"
+      operationId: "updateSystem"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "systemId"
+        in: "path"
+        description: "Id of the system to update"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "System object for update context"
+        required: true
+        schema:
+          $ref: "#/definitions/System"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/System"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "System"
+  /systems:
+    get:
+      tags:
+      - "system"
+      summary: "Returns configured system(s) within the ESB"
+      operationId: "getSystems"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/System"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+      x-swagger-router-controller: "System"
+definitions:
+  ErrorMessage:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int32"
+      message:
+        type: "string"
+  Alert:
+    type: "object"
+    required:
+    - "level"
+    - "message"
+    - "system"
+    properties:
+      id:
+        type: "string"
+        description: "uuid of object"
+      system:
+        type: "string"
+        description: "associated system uuid"
+      flow:
+        type: "string"
+        description: "associated flow uuid"
+      component:
+        type: "string"
+        description: "associated component uuid"
+      message:
+        type: "string"
+        description: "alert context"
+      priority:
+        type: "integer"
+        format: "int32"
+        description: "alert priority 0(low) 10(high)"
+        minimum: 0
+        maximum: 10
+      level:
+        $ref: "#/definitions/Level"
+      createTime:
+        type: "string"
+        format: "date-time"
+        description: "Date tim eof creation of alert"
+  Level:
+    type: "object"
+    required:
+    - "id"
+    - "value"
+    properties:
+      id:
+        type: "integer"
+        format: "int32"
+        enum:
+        - 1
+        - 2
+        - 3
+      value:
+        type: "string"
+        enum:
+        - "INFO"
+        - "WARNING"
+        - "ERROR"
+  System:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      flows:
+        type: "object"
+        properties:
+          send:
+            type: "array"
+            items:
+              $ref: "#/definitions/Flow"
+          transform:
+            type: "array"
+            items:
+              $ref: "#/definitions/Flow"
+          receive:
+            type: "array"
+            items:
+              $ref: "#/definitions/Flow"
+      createTime:
+        type: "string"
+        format: "date-time"
+        description: "date time of creation"
+      createBy:
+        type: "string"
+        description: "userId of who created system object"
+      void:
+        type: "boolean"
+      voidBy:
+        type: "string"
+        description: "userId of who voided object"
+      voidTime:
+        type: "string"
+        format: "date-time"
+        description: "date time of creation"
+  Flow:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      objectName:
+        type: "string"
+      name:
+        type: "string"
+      links:
+        type: "object"
+        properties:
+          source:
+            type: "array"
+            items:
+              $ref: "#/definitions/Link"
+          target:
+            type: "array"
+            items:
+              $ref: "#/definitions/Link"
+      components:
+        type: "array"
+        items:
+          $ref: "#/definitions/Component"
+      system:
+        type: "string"
+      createTime:
+        type: "string"
+        format: "date-time"
+        description: "date time of creation"
+      createBy:
+        type: "string"
+        description: "userId of who created system object"
+      void:
+        type: "boolean"
+      voidBy:
+        type: "string"
+        description: "userId of who voided object"
+      voidTime:
+        type: "string"
+        format: "date-time"
+        description: "date time of creation"
+  Component:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      objectName:
+        type: "string"
+      flows:
+        type: "array"
+        items:
+          type: "string"
+      createTime:
+        type: "string"
+        format: "date-time"
+        description: "date time of creation"
+      createBy:
+        type: "string"
+        description: "userId of who created system object"
+      void:
+        type: "boolean"
+      voidBy:
+        type: "string"
+        description: "userId of who voided object"
+      voidTime:
+        type: "string"
+        format: "date-time"
+        description: "date time of creation"
+  Link:
+    type: "object"
+    required:
+    - "endFlow"
+    - "endSys"
+    - "startFlow"
+    - "startSys"
+    properties:
+      id:
+        type: "string"
+      startFlow:
+        type: "string"
+      startSys:
+        type: "string"
+      endFlow:
+        type: "string"
+      endSys:
+        type: "string"
+      value:
+        type: "number"
+        format: "double"
+      weight:
+        type: "number"
+        format: "double"
+      established:
+        type: "string"
+        format: "date-time"
+        description: "creation time of link object"
+      void:
+        type: "boolean"
+      voidTime:
+        type: "string"
+        format: "date-time"
+        description: "date time of creation"
+  Incident:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        description: "identifier of the report"
+      system:
+        type: "string"
+      flows:
+        type: "array"
+        items:
+          type: "string"
+      alerts:
+        type: "array"
+        items:
+          $ref: "#/definitions/Alert"
+      actions:
+        type: "array"
+        items:
+          $ref: "#/definitions/Action"
+      related:
+        type: "array"
+        items:
+          $ref: "#/definitions/Incident"
+      opened:
+        type: "string"
+        format: "date-time"
+        description: "creation time"
+      openedBy:
+        type: "string"
+        description: "user id of individual who created object"
+      closed:
+        type: "string"
+        format: "date-time"
+        description: "time of close"
+      closedBy:
+        type: "string"
+        description: "user id of individual who closed object"
+  Action:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      established:
+        type: "integer"
+        format: "int64"
+        description: "epoch of creation time"
+      user:
+        type: "string"
+        description: "user id"
+      message:
+        type: "string"
+        description: "action content"
+  Documentation:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        description: "identifier of the documentation item"
+      system:
+        type: "string"
+        description: "reference of system id"
+      flow:
+        type: "string"
+        description: "reference of flow id"
+      action:
+        type: "string"
+        description: "reference of action id"
+      incident:
+        type: "string"
+        description: "reference of incident id"
+      subject:
+        type: "string"
+      text:
+        type: "string"
+      createTime:
+        type: "string"
+        format: "date-time"
+        description: "date time of creation"
+      createBy:
+        type: "string"
+        description: "userId of who created system object"
+      void:
+        type: "boolean"
+      voidBy:
+        type: "string"
+        description: "userId of who voided object"
+      voidTime:
+        type: "string"
+        format: "date-time"
+        description: "date time of creation"
+  ContactMethod:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      form:
+        type: "string"
+        enum:
+        - "SMS"
+        - "EMAIL"
+        - "MAIL"
+        - "TELEGRAM"
+        - "PONY EXPRESS"
+        - "SMOKE SIGNALS"
+        - "DRUMS"
+        - "ROCK"
+      entry:
+        type: "string"
+      precedence:
+        type: "integer"
+        format: "int32"
+      createTime:
+        type: "string"
+        format: "date-time"
+        description: "date time of creation"
+      createBy:
+        type: "string"
+        description: "userId of who created system object"
+      void:
+        type: "boolean"
+      voidBy:
+        type: "string"
+        description: "userId of who voided object"
+      voidTime:
+        type: "string"
+        format: "date-time"
+        description: "date time of creation"
+  Contact:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      middleName:
+        type: "string"
+      prefix:
+        type: "string"
+      suffix:
+        type: "string"
+      additional:
+        type: "array"
+        items:
+          type: "string"
+      methods:
+        type: "array"
+        items:
+          $ref: "#/definitions/ContactMethod"
+  KeyValuePair:
+    type: "object"
+    properties:
+      key:
+        type: "string"
+      value:
+        type: "string"
+      dataType:
+        type: "string"
+  Request:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      createTime:
+        type: "string"
+        format: "date-time"
+      createBy:
+        type: "string"
+        description: "user id of who submitted request"
+      values:
+        type: "array"
+        items:
+          $ref: "#/definitions/KeyValuePair"

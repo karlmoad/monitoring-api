@@ -1,0 +1,28 @@
+{
+  "kind":"Service",
+  "apiVersion": "v1",
+  "metadata" : {
+    "name":"api",
+    "labels":{"name":"api"}
+  },
+  "spec":{
+      "type":"LoadBalancer",
+      "selector":{
+        "name":"api"
+      },
+      "ports":[
+          {
+            "name":"api-ws",
+            "protocol":"TCP",
+            "port":24790,
+            "targetPort":24790
+          },
+          {
+            "name":"api-rest",
+            "protocol":"TCP",
+            "port":24890,
+            "targetPort":24890
+          }
+      ]
+  }
+}

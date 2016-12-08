@@ -1,0 +1,32 @@
+{
+  "kind": "ReplicationController",
+  "apiVersion": "v1",
+  "metadata" : {
+    "name":"web-controller",
+    "labels":{
+        "name":"web"
+    }
+  },
+  "spec":{
+    "replicas":1,
+    "selector":{"name":"web"},
+    "template":{
+        "metadata":{"labels":{"name":"web"}},
+        "spec":{
+          "containers":[
+            {
+                "name":"web",
+                "image":"gcr.io/esbmanagementapi/web:v2",
+                "ports":[
+                  {
+                      "name":"web-http",
+                      "containerPort":8081,
+                      "hostPort":8081
+                  }
+                ]
+            }
+          ]
+        }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "kind": "ReplicationController",
+  "apiVersion": "v1",
+  "metadata" : {
+    "name":"api-controller",
+    "labels":{
+        "name":"api"
+    }
+  },
+  "spec":{
+    "replicas":1,
+    "selector":{"name":"api"},
+    "template":{
+        "metadata":{"labels":{"name":"api"}},
+        "spec":{
+          "containers":[
+            {
+                "name":"api",
+                "image":"gcr.io/esbmanagementapi/api:v1",
+                "ports":[
+                  {
+                      "name":"api-ws",
+                      "containerPort":24790,
+                      "hostPort":24790
+                  },
+                  {
+                      "name":"api-rest",
+                      "containerPort":24890,
+                      "hostPort":24890
+                  }
+                ]
+            }
+          ]
+        }
+    }
+  }
+}
